@@ -34,7 +34,7 @@ const set_value = (value) => {
 
 // 主循环
 async function main() {
-    const mongo = await load_data("/static/150000_full.json")
+    const mongo = await load_data("./static/150000_full.json")
 
     // 基于准备好的dom，初始化echarts实例
     
@@ -84,7 +84,7 @@ async function main() {
         //   color: ['lightskyblue', 'darkblue']
         }
       },
-    series: [...(await load_data("/static/map_air.json"))]
+    series: [...(await load_data("./static/map_air.json"))]
     };
 
     // 使用刚指定的配置项和数据显示图表。
