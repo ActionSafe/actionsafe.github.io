@@ -20,12 +20,21 @@ time, mark, audio, video {
     background:transparent;
 }
 
+/* 更改width的作用方式 */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
 
+p {
+  line-height: 1.5;
+}
 
 a {
-	color: #03deff;
+	color: #ffbb00;
   text-decoration: none;
-	transition: color 0.6s;
+	transition: color 0.4s;
 }
 a:hover {
 	color: #0362ff;
@@ -39,8 +48,8 @@ header {
 
 nav {
   display: flex;
-  justify-content: space-around;
-  padding: 10px 50px;
+  justify-content: space-between;
+  padding: 10px 10%;
 }
 
 nav ul {
@@ -48,13 +57,13 @@ nav ul {
 }
 
 nav ul li {
-	height: 30px;
+	height: 40px;
 	display: inline-block;
 }
 
 .brand {
   font-size: 1.3rem;
-  line-height: 30px;
+  line-height: 40px;
 	font-weight: bold;
   color: #001f28;
   text-decoration: none;
@@ -69,7 +78,7 @@ nav ul li {
 nav ul li a {
 	font-size: 1rem;
 	font-weight: bold;
-	line-height: 30px;
+	line-height: 40px;
 	color: #001f28;
 	width: 130px; height: 100%;
 	display: block;
@@ -88,36 +97,53 @@ nav ul li a:hover {
 
 
 #container {
-  width: 980px;
+  width: 80%;
 	margin: 0 auto;
 	padding-top: 20px;
 }
 
 #container h2 {
-	height: 40px;
-	line-height: 40px;
+  font-size: 1.2em;
+	height: 45px;
+	line-height: 45px;
 	color: #FFF;
 	font-weight: bold;
 	background: #001f28;
 	border-radius: 5px;
-	margin: 0 0 15px;
+	margin: 0px 0 15px;
 	padding: 0 15px;
 	box-shadow: 0 0 3px rgba(0,0,0,0.35);
 }
 #container h2:before {
-	content: "■";
-	font-family: fontawesome;
-	color: rgba(255,255,255,0.45);
+	content: ">";
+  color: rgba(255,255,255,0.45);
 	margin-right: 5px;
 }
 
 section {
 	width: 100%;
-	padding: 15px;
+	padding: 10px;
 	background: #FFF;
 	border-bottom: solid 10px #ffa500;
 	border-radius: 5px;
 	box-shadow: 0 0 3px rgba(0,0,0,0.35);
-	margin-bottom: 30px;
+  margin-bottom: 15px;
 }
 
+#name {
+  display: inline-block;
+  color: #FFF;
+	background: #35322e;
+  padding: 7px 15px 5px 10px;
+	margin-bottom: 5px;
+  border-radius: 0 1.4rem 1.4rem 0;
+	border-left: solid 5px #b1aaa4;
+}
+
+h3 > a {
+  color: #0362ff;
+}
+
+h3 > a:hover {
+	color: #ffa500;
+}
