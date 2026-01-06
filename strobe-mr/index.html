@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GPT-5 STROBE-MR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --bg-main: #f8fafc;
+            --sidebar-bg: #ffffff;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: #1e293b;
+            font-family: 'Inter', -apple-system, sans-serif;
+            overflow: hidden;
+        }
+
+        /* Layout */
+        #container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Sidebar Styling */
+        #sidebar {
+            width: 300px;
+            background: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        #sidebar.collapsed {
+            width: 0;
+            overflow: hidden;
+            border-right: none;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .article-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 0.5rem;
+        }
+
+        .article-item {
+            padding: 0.75rem 1rem;
+            margin-bottom: 0.25rem;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: background 0.2s;
+            border: 1px solid transparent;
+        }
+
+        .article-item:hover {
+            background: #f1f5f9;
+        }
+
+        .article-item.active {
+            background: #eff6ff;
+            color: var(--primary);
+            font-weight: 600;
+            border-color: #bfdbfe;
+        }
+
+        /* Main Content */
+        #main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .top-nav {
+            height: 64px;
+            background: #fff;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+        }
+
+        .viewer-split {
+            flex: 1;
+            display: flex;
+            overflow: hidden;
+        }
+
+        .article-viewer-container {
+            flex: 1;
+            background: #fff;
+            border-right: 1px solid var(--border-color);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* This is the host for the Shadow DOM */
+        #article-shadow-host {
+            flex: 1;
+            overflow-y: auto;
+            padding: 2rem;
+        }
+
+        .assessment-viewer {
+            width: 450px;
+            background: #fcfcfd;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Assessment Cards */
+        .assessment-scroll {
+            flex: 1;
+            overflow-y: auto;
+            padding: 1rem;
+        }
+
+        .assessment-card {
+            background: #fff;
+            border: 1px solid var(--border-color);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.125rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-true { background: #dcfce7; color: #166534; }
+        .status-false { background: #fee2e2; color: #991b1b; }
+
+        .pagination-bar {
+            padding: 1rem;
+            background: #fff;
+            border-top: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .toggle-sidebar-btn {
+            position: absolute;
+            left: 300px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 50;
+            background: var(--primary);
+            color: white;
+            width: 24px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            transition: left 0.3s ease;
+        }
+
+        #sidebar.collapsed + .toggle-sidebar-btn {
+            left: 0;
+        }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 3px; }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <!-- Sidebar -->
+        <div id="sidebar">
+            <div class="sidebar-header">
+                <h2 class="text-xl font-bold mb-4">Results Explorer</h2>
+                <div id="models" class="flex gap-2"></div>
+            </div>
+            <div id="header" class="article-list"></div>
+        </div>
+
+        <div class="toggle-sidebar-btn" onclick="toggleSidebar()">
+            <svg id="toggle-icon" width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+        </div>
+
+        <!-- Main Workspace -->
+        <div id="main-content">
+            <div class="top-nav">
+                <div class="flex items-center gap-4">
+                    <h1 class="font-semibold text-lg" id="current-info">Model: -- | Article: --</h1>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-slate-500">Assessment Filter:</span>
+                    <select id="status-filter" class="text-sm border rounded px-2 py-1">
+                        <option value="all">All Items</option>
+                        <option value="met">Met Only</option>
+                        <option value="not-met">Not Met Only</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="viewer-split">
+                <!-- Left Panel: Article Content -->
+                <div class="article-viewer-container">
+                    <div id="article-shadow-host">
+                        <div class="flex items-center justify-center h-full text-slate-400">
+                            Select an article from the sidebar to view content
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel: Assessment Cards + Pagination -->
+                <div class="assessment-viewer">
+                    <div id="assessment-container" class="assessment-scroll"></div>
+                    
+                    <div class="pagination-bar">
+                        <button id="prev-btn" class="px-3 py-1 text-sm border rounded hover:bg-slate-50 disabled:opacity-30">Previous</button>
+                        <span id="page-info" class="text-sm text-slate-600">Page 1 of 1</span>
+                        <button id="next-btn" class="px-3 py-1 text-sm border rounded hover:bg-slate-50 disabled:opacity-30">Next</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        let data = [];
+        let samples = [];
+        let strobe = [];
+        const models = ['gpt-5', 'gpt-5-mini'];
+        let currentModelIndex = 0;
+        let currentArticleIndex = 0;
+        let currentPage = 1;
+        const itemsPerPage = 5;
+
+        // UI Elements
+        const header = document.getElementById('header');
+        const modelContainer = document.getElementById('models');
+        const shadowHost = document.getElementById('article-shadow-host');
+        const assessmentContainer = document.getElementById('assessment-container');
+        const pageInfo = document.getElementById('page-info');
+        const currentInfoText = document.getElementById('current-info');
+
+        // Create Shadow Root once
+        const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
+
+        async function loadJson(path) {
+            const response = await fetch(path);
+            return await response.json();
+        }
+
+        async function init() {
+            try {
+                // Production: Load real data
+                data = [await loadJson('./data/gpt-5.json'), await loadJson('./data/gpt-5-mini.json')];
+                samples = await loadJson('./data/sample.json');
+                strobe = await loadJson('./data/strobe-mr.json');
+                
+                createModelSelector();
+                createSidebar();
+            } catch (e) {
+                console.error("Initialization failed", e);
+            }
+        }
+
+        function parseArticleHtml(html) {
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+            const mainContent = doc.getElementById('main-content') || doc.body;
+            
+            // To be safe, also collect internal style tags if the article has them
+            const styles = Array.from(doc.querySelectorAll('style')).map(s => s.outerHTML).join('');
+            
+            return styles + mainContent.innerHTML;
+        }
+
+        window.toggleSidebar = function() {
+            const sidebar = document.getElementById('sidebar');
+            const icon = document.getElementById('toggle-icon');
+            sidebar.classList.toggle('collapsed');
+            icon.style.transform = sidebar.classList.contains('collapsed') ? 'rotate(180deg)' : 'rotate(0deg)';
+        };
+
+        function createModelSelector() {
+            modelContainer.innerHTML = '';
+            models.forEach((model, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `flex-1 py-2 text-xs font-bold rounded-lg border transition ${currentModelIndex === idx ? 'bg-blue-600 text-white border-blue-600' : 'bg-white text-slate-600 border-slate-200 hover:border-blue-300'}`;
+                btn.textContent = model.toUpperCase();
+                btn.onclick = () => {
+                    currentModelIndex = idx;
+                    currentArticleIndex = 0;
+                    currentPage = 1;
+                    createModelSelector();
+                    createSidebar();
+                    renderArticle();
+                };
+                modelContainer.appendChild(btn);
+            });
+        }
+
+        function createSidebar() {
+            header.innerHTML = '';
+            const articles = data[currentModelIndex] || [];
+            
+            if (articles.length === 0) {
+                header.innerHTML = '<div class="p-4 text-slate-400 text-sm">No articles found</div>';
+                return;
+            }
+
+            articles.forEach((art, idx) => {
+                const item = document.createElement('div');
+                item.className = `article-item ${currentArticleIndex === idx ? 'active' : ''}`;
+                item.innerHTML = `
+                    <div class="font-medium">${art.pmcid}</div>
+                    <div class="text-xs opacity-70">Research Article</div>
+                `;
+                item.onclick = () => {
+                    currentArticleIndex = idx;
+                    currentPage = 1;
+                    createSidebar();
+                    renderArticle();
+                };
+                header.appendChild(item);
+            });
+        }
+
+        function renderArticle() {
+            const currentRes = data[currentModelIndex];
+            if (!currentRes || !currentRes[currentArticleIndex]) return;
+
+            const article = currentRes[currentArticleIndex];
+            currentInfoText.textContent = `Model: ${models[currentModelIndex]} | Article: ${article.pmcid}`;
+
+            const sample = samples.find(s => s.pmcid === article.pmcid);
+            
+            // Render into the Shadow Root to isolate styles
+            if (sample) {
+                // We add a basic internal style reset inside the shadow root 
+                // so the article doesn't inherit "nothing" (like white text on white bg)
+                const baseReset = `
+                    <style>
+                        :host { 
+                            display: block; 
+                            font-family: serif; 
+                            line-height: 1.6; 
+                            color: #333;
+                            background: white;
+                        }
+                        img { max-width: 100%; height: auto; }
+                        table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+                    </style>
+                `;
+                shadowRoot.innerHTML = baseReset + parseArticleHtml(sample.html); 
+            } else {
+                shadowRoot.innerHTML = `
+                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #94a3b8; font-family: sans-serif;">
+                        <p>Content for ${article.pmcid} not found.</p>
+                    </div>`;
+            }
+
+            renderAssessments();
+        }
+
+        function renderAssessments() {
+            const article = data[currentModelIndex][currentArticleIndex];
+            assessmentContainer.innerHTML = '';
+            
+            if (!article || !article.assessments || article.assessments.length === 0) {
+                assessmentContainer.innerHTML = '<div class="p-8 text-center text-red-400 text-sm">No assessments available (Because GPT-5 determined that it\'s not an original research article).</div>';
+                return;
+            }
+
+            const totalPages = Math.ceil(article.assessments.length / itemsPerPage);
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageItems = article.assessments.slice(start, end);
+
+            pageItems.forEach((assessment, i) => {
+                const globalIdx = start + i;
+                const strobeItem = strobe[globalIdx] ? strobe[globalIdx].item : `Item ${globalIdx + 1}`;
+                
+                const card = document.createElement('div');
+                card.className = 'assessment-card';
+                card.innerHTML = `
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-xs font-bold text-slate-400">#${globalIdx + 1}</span>
+                        <span class="status-badge ${assessment.is_met ? 'status-true' : 'status-false'}">
+                            ${assessment.is_met ? 'MET' : 'NOT MET'}
+                        </span>
+                    </div>
+                    <h4 class="font-bold text-sm mb-2">${strobeItem}</h4>
+                    <p class="text-xs text-slate-600 mb-3 bg-slate-50 p-2 rounded border-l-2 border-slate-200">
+                        ${assessment.rationale}
+                    </p>
+                    <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider mb-1">Relevant Text</div>
+                    <p class="text-[11px] italic text-slate-500 line-clamp-3">"${assessment.relevant_text || 'No text snippet provided'}"</p>
+                `;
+                assessmentContainer.appendChild(card);
+            });
+
+            pageInfo.textContent = `Page ${currentPage} of ${totalPages || 1}`;
+            document.getElementById('prev-btn').disabled = currentPage === 1;
+            document.getElementById('next-btn').disabled = currentPage === totalPages || totalPages === 0;
+        }
+
+        document.getElementById('prev-btn').onclick = () => {
+            if (currentPage > 1) {
+                currentPage--;
+                renderAssessments();
+            }
+        };
+
+        document.getElementById('next-btn').onclick = () => {
+            const article = data[currentModelIndex][currentArticleIndex];
+            const totalPages = Math.ceil(article.assessments.length / itemsPerPage);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderAssessments();
+            }
+        };
+
+        init();
+    </script>
+</body>
+</html>

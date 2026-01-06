@@ -1,0 +1,482 @@
+[
+    {
+        "index": 1,
+        "section": "Title and Abstract",
+        "item": "Indicate Mendelian randomization (MR) as the study's design in the title and/or the abstract if that is a main purpose of the study",
+        "note": null
+    },
+    {
+        "index": 2,
+        "section": "Background",
+        "item": "Explain the scientific background and rationale for the reported study. What is the exposure? Is a potential causal relationship between exposure and outcome plausible? Justify why MR is a helpful method to address the study question",
+        "note": null
+    },
+    {
+        "index": 3,
+        "section": "Objectives",
+        "item": "State specific objectives clearly, including pre-specified causal hypotheses (if any). State that MR is a method that, under specific assumptions, intends to estimate causal effects",
+        "note": null
+    },
+    {
+        "index": 4,
+        "section": "Study design and data sources",
+        "item": "Present data sources of the study early in the article",
+        "note": null
+    },
+    {
+        "index": 5,
+        "section": "Study design and data sources",
+        "item": "Present 2. Methods of the study in the article",
+        "note": null
+    },
+    {
+        "index": 6,
+        "section": "Study design and data sources",
+        "item": "Present 3. Exposures of the study in the article",
+        "note": null
+    },
+    {
+        "index": 7,
+        "section": "Study design and data sources",
+        "item": "Present 4. Outcomes of the study in the article",
+        "note": null
+    },
+    {
+        "index": 8,
+        "section": "Study design and data sources",
+        "item": "including a table listing sources of data for all phases of the study",
+        "note": null
+    },
+    {
+        "index": 9,
+        "section": "Study design and data sources",
+        "item": "[Setting] For each data source, describe its study design",
+        "note": null
+    },
+    {
+        "index": 10,
+        "section": "Study design and data sources",
+        "item": "[Setting] For each data source, describe its underlying population",
+        "note": null
+    },
+    {
+        "index": 11,
+        "section": "Study design and data sources",
+        "item": "[Setting] For each data source,  describe its locations",
+        "note": null
+    },
+    {
+        "index": 12,
+        "section": "Study design and data sources",
+        "item": "[Setting] For each data source, describe relevant dates, including periods of recruitment",
+        "note": null
+    },
+    {
+        "index": 13,
+        "section": "Study design and data sources",
+        "item": "[Setting] For each data source, describe its exposure",
+        "note": null
+    },
+    {
+        "index": 14,
+        "section": "Study design and data sources",
+        "item": "[Setting] For each data source, describe how the follow-up process was conducted ",
+        "note": null
+    },
+    {
+        "index": 15,
+        "section": "Study design and data sources",
+        "item": "[Setting] For each data source, describe the data collection process",
+        "note": null
+    },
+    {
+        "index": 16,
+        "section": "Study design and data sources",
+        "item": "[Paricipants] For each data source, give the eligibility criteria, and the sources and methods of selection of participants",
+        "note": null
+    },
+    {
+        "index": 17,
+        "section": "Study design and data sources",
+        "item": "[Paricipants] For each data source, report the sample size",
+        "note": null
+    },
+    {
+        "index": 18,
+        "section": "Study design and data sources",
+        "item": "[Paricipants] For each data source, report whether any power or sample size calculations were carried out prior to the main analysis",
+        "note": null
+    },
+    {
+        "index": 19,
+        "section": "Study design and data sources",
+        "item": "[Paricipants] For each data source, describe measurement of genetic variants",
+        "note": null
+    },
+    {
+        "index": 20,
+        "section": "Study design and data sources",
+        "item": "[Paricipants] For each data source,  describe quality control of genetic variants",
+        "note": null
+    },
+    {
+        "index": 21,
+        "section": "Study design and data sources",
+        "item": "[Paricipants] For each data source, describe  selection of genetic variants",
+        "note": null
+    },
+    {
+        "index": 22,
+        "section": "Study design and data sources",
+        "item": "Describe methods of assessment and diagnostic criteria for each exposure",
+        "note": null
+    },
+    {
+        "index": 23,
+        "section": "Study design and data sources",
+        "item": "Describe methods of assessment and diagnostic criteria for each outcome",
+        "note": null
+    },
+    {
+        "index": 24,
+        "section": "Study design and data sources",
+        "item": "Describe methods of assessment and diagnostic criteria for other relevant variables",
+        "note": null
+    },
+    {
+        "index": 25,
+        "section": "Study design and data sources",
+        "item": "Provide details of ethics committee approval and participant informed consent, if relevant",
+        "note": null
+    },
+    {
+        "index": 26,
+        "section": "Assumptions",
+        "item": "Explicitly state the relevance assumption of IV",
+        "note": null
+    },
+    {
+        "index": 27,
+        "section": "Assumptions",
+        "item": "Explicitly state the independence assumption of IV",
+        "note": null
+    },
+    {
+        "index": 28,
+        "section": "Assumptions",
+        "item": "Explicitly state the exclusion assumption of IV",
+        "note": null
+    },
+    {
+        "index": 29,
+        "section": "Assumptions",
+        "item": "State assumptions for any additional or sensitivity analysis",
+        "note": "Example:InSIDE assumption for MR-Egger"
+    },
+    {
+        "index": 30,
+        "section": "Statistical methods: main analysis",
+        "item": "Describe how quantitative variables were handled in the analyses (i.e., scale, units, model)",
+        "note": null
+    },
+    {
+        "index": 31,
+        "section": "Statistical methods: main analysis",
+        "item": "Describe how genetic variants were handled in the analyses and, if applicable, how their weights were selected",
+        "note": "Example:selection thresholds, LD pruning, palindromic SNP handling, allele score"
+    },
+    {
+        "index": 32,
+        "section": "Statistical methods: main analysis",
+        "item": "Describe the MR estimator (e.g. two-stage least squares, Wald ratio) and related statistics.",
+        "note": null
+    },
+    {
+        "index": 33,
+        "section": "Statistical methods: main analysis",
+        "item": "Detail the included covariates",
+        "note": null
+    },
+    {
+        "index": 34,
+        "section": "Statistical methods: main analysis",
+        "item": "in case of two-sample MR, whether the same covariate set was used for adjustment in the two samples",
+        "note": null
+    },
+    {
+        "index": 35,
+        "section": "Statistical methods: main analysis",
+        "item": "Explain how missing data were addressed",
+        "note": null
+    },
+    {
+        "index": 36,
+        "section": "Statistical methods: main analysis",
+        "item": "If applicable, indicate how multiple testing was addressed",
+        "note": null
+    },
+    {
+        "index": 37,
+        "section": "Assessment of assumptions",
+        "item": "Describe any methods or prior knowledge used to assess the relevance assumption of IV",
+        "note": null
+    },
+    {
+        "index": 38,
+        "section": "Assessment of assumptions",
+        "item": "Describe any methods or prior knowledge used to assess the independence  assumption of IV",
+        "note": null
+    },
+    {
+        "index": 39,
+        "section": "Assessment of assumptions",
+        "item": "Describe any methods or prior knowledge used to assess the exclusion assumption of IV",
+        "note": null
+    },
+    {
+        "index": 40,
+        "section": "Assessment of assumptions",
+        "item": "Describe any methods or prior knowledge used to assess the assumptions for any additional analysis or sensitivity analysis",
+        "note": null
+    },
+    {
+        "index": 41,
+        "section": "Sensitivity analyses and additional analyses",
+        "item": "Describe any sensitivity analyses or additional analyses performed",
+        "note": "Eample: comparison of effect estimates from different approaches, independent replication, bias analytic techniques, validation of instruments, simulations"
+    },
+    {
+        "index": 42,
+        "section": "Software and preregistration",
+        "item": "Name statistical software and package(s), including version and settings used",
+        "note": "All versions for software packages must be described"
+    },
+    {
+        "index": 43,
+        "section": "Software and preregistration",
+        "item": "State whether the study protocol and details were pre-registered (as well as when and where)",
+        "note": null
+    },
+    {
+        "index": 44,
+        "section": "Descriptive data",
+        "item": "Report the numbers of individuals at each stage of included studies and reasons for exclusion. Consider use of a flow diagram",
+        "note": null
+    },
+    {
+        "index": 45,
+        "section": "Descriptive data",
+        "item": "Report summary statistics for phenotypic exposure(s), outcome(s), and other relevant variables (e.g. means, SDs, proportions)",
+        "note": null
+    },
+    {
+        "index": 46,
+        "section": "Descriptive data",
+        "item": "If the data sources include meta-analyses of previous studies, provide the assessments of heterogeneity across these studies",
+        "note": "Example: I2 statistic, Q statistic, or between-study variance"
+    },
+    {
+        "index": 47,
+        "section": "Descriptive data",
+        "item": "For two-sample MR: Provide justification of the similarity of the genetic variant-exposure associations between the exposure and outcome samples",
+        "note": null
+    },
+    {
+        "index": 48,
+        "section": "Descriptive data",
+        "item": "For two-sample MR: Provide information on the number of individuals who overlap between the exposure and outcome studies",
+        "note": null
+    },
+    {
+        "index": 49,
+        "section": "Main results",
+        "item": "Report the associations between genetic variant and exposure, and between genetic variant and outcome, preferably on an interpretable scale",
+        "note": null
+    },
+    {
+        "index": 50,
+        "section": "Main results",
+        "item": "Report MR estimates of the relationship between exposure and outcome, and the measures of uncertainty from the MR analysis, on an interpretable scale, such as odds ratio or relative risk per SD difference",
+        "note": null
+    },
+    {
+        "index": 51,
+        "section": "Main results",
+        "item": "Describe whether translating estimates of relative risk into absolute risk is conducted",
+        "note": null
+    },
+    {
+        "index": 52,
+        "section": "Main results",
+        "item": "Consider plots to visualize results (e.g. forest plot, scatterplot of associations between genetic variants and outcome versus between genetic variants and exposure)",
+        "note": null
+    },
+    {
+        "index": 53,
+        "section": "Assessment of assumptions",
+        "item": "Report results of the assessment of the relevance assumption",
+        "note": null
+    },
+    {
+        "index": 54,
+        "section": "Assessment of assumptions",
+        "item": "Report results of the assessment of the independence assumption",
+        "note": null
+    },
+    {
+        "index": 55,
+        "section": "Assessment of assumptions",
+        "item": "Report results of the assessment of the exclusion assumption",
+        "note": null
+    },
+    {
+        "index": 56,
+        "section": "Assessment of assumptions",
+        "item": "Report results of the assessment of the any additional assumption, if relevant ",
+        "note": null
+    },
+    {
+        "index": 57,
+        "section": "Assessment of assumptions",
+        "item": "Report any additional statistics",
+        "note": "Example: assessments of heterogeneity across genetic variants, such as I2, Q statistic or E-value"
+    },
+    {
+        "index": 58,
+        "section": "Sensitivity analyses and additional analyses",
+        "item": "Report results from any sensitivity analyses to assess the robustness of the main results to violations of the assumptions",
+        "note": null
+    },
+    {
+        "index": 59,
+        "section": "Sensitivity analyses and additional analyses",
+        "item": "Report results from other sensitivity analyses or additional analyses",
+        "note": null
+    },
+    {
+        "index": 60,
+        "section": "Sensitivity analyses and additional analyses",
+        "item": "Report any assessment of direction of causal relationship (e.g., bidirectional MR)",
+        "note": null
+    },
+    {
+        "index": 61,
+        "section": "Sensitivity analyses and additional analyses",
+        "item": "Report and compare with estimates from non-MR analyses",
+        "note": null
+    },
+    {
+        "index": 62,
+        "section": "Sensitivity analyses and additional analyses",
+        "item": "Consider additional plots to visualize results (e.g., leave-one-out analyses)",
+        "note": null
+    },
+    {
+        "index": 63,
+        "section": "Key results",
+        "item": "Summarize key results with reference to study objectives",
+        "note": null
+    },
+    {
+        "index": 64,
+        "section": "Limitations",
+        "item": "Limitation: discuss the validity of the IV assumptions",
+        "note": null
+    },
+    {
+        "index": 65,
+        "section": "Limitations",
+        "item": "Limitation: discuss other sources of potential bias and imprecision",
+        "note": null
+    },
+    {
+        "index": 66,
+        "section": "Limitations",
+        "item": "Limitation: discuss both direction and magnitude of any potential bias and any efforts to address them",
+        "note": null
+    },
+    {
+        "index": 67,
+        "section": "Interpretation",
+        "item": "Meaning: Give a cautious overall interpretation of results in the context of their limitations and in comparison with other studies",
+        "note": null
+    },
+    {
+        "index": 68,
+        "section": "Interpretation",
+        "item": "Mechanism: Discuss underlying biological mechanisms that could drive a potential causal relationship between the investigated exposure and the outcome",
+        "note": null
+    },
+    {
+        "index": 69,
+        "section": "Interpretation",
+        "item": "Mechanism: Discuss whether the gene-environment equivalence assumption is reasonable",
+        "note": null
+    },
+    {
+        "index": 70,
+        "section": "Interpretation",
+        "item": "Mechanism: Clarifying that IV estimates may provide causal effects only under certain assumptions ",
+        "note": null
+    },
+    {
+        "index": 71,
+        "section": "Interpretation",
+        "item": "Clinical relevance: Discuss whether the results have clinical or public policy relevance, and to what extent they inform effect sizes of possible interventions",
+        "note": null
+    },
+    {
+        "index": 72,
+        "section": "Generalizability",
+        "item": "Discuss the generalizability of the study results to other populations",
+        "note": null
+    },
+    {
+        "index": 73,
+        "section": "Generalizability",
+        "item": "Discuss the generalizability of the study results across other exposure periods/timings",
+        "note": null
+    },
+    {
+        "index": 74,
+        "section": "Generalizability",
+        "item": "Discuss the generalizability of the study results across other levels of exposure",
+        "note": null
+    },
+    {
+        "index": 75,
+        "section": "Funding",
+        "item": "Describe sources of funding in the present study",
+        "note": null
+    },
+    {
+        "index": 76,
+        "section": "Funding",
+        "item": "Describe  the role of funders in the present study",
+        "note": null
+    },
+    {
+        "index": 77,
+        "section": "Funding",
+        "item": "If applicable, describe sources of funding for the databases or studies on which the present study is based",
+        "note": null
+    },
+    {
+        "index": 78,
+        "section": "Data and data sharing",
+        "item": "Provide the data used to perform all analyses or report where and how the data can be accessed, and reference these sources in the article",
+        "note": null
+    },
+    {
+        "index": 79,
+        "section": "Data and data sharing",
+        "item": "Provide the statistical code needed to reproduce the results in the article, or report whether the code is publicly accessible and if so, where",
+        "note": null
+    },
+    {
+        "index": 80,
+        "section": "Conflicts of Interest",
+        "item": "All authors should declare all potential conflicts of interest",
+        "note": null
+    }
+]
