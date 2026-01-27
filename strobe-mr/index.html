@@ -117,7 +117,7 @@
         }
 
         .assessment-viewer {
-            width: 450px;
+            width: 100%;
             background: #fcfcfd;
             display: flex;
             flex-direction: column;
@@ -178,6 +178,15 @@
             transition: left 0.3s ease;
         }
 
+        .article-link {
+            color: #2563eb;
+        }
+
+        .article-link:hover {
+            transition: color ease 0.5s;
+            color:#991b1b;
+        }
+
         #sidebar.collapsed + .toggle-sidebar-btn {
             left: 0;
         }
@@ -221,13 +230,13 @@
 
             <div class="viewer-split">
                 <!-- Left Panel: Article Content -->
-                <div class="article-viewer-container">
+                <!-- <div class="article-viewer-container">
                     <div id="article-shadow-host">
                         <div class="flex items-center justify-center h-full text-slate-400">
                             Select an article from the sidebar to view content
                         </div>
                     </div>
-                </div>
+                </div> -->
 
                 <!-- Right Panel: Assessment Cards + Pagination -->
                 <div class="assessment-viewer">
@@ -251,23 +260,21 @@
         let currentModelIndex = 0;
         let currentArticleIndex = 0;
         let currentPage = 1;
-        
         const itemsPerPage = 5;
+
+        const pmc_host = "https://pmc.ncbi.nlm.nih.gov/articles/"
+        const article_link_class = "article-link"
 
         // UI Elements
         const header = document.getElementById('header');
         const modelContainer = document.getElementById('models');
-        const shadowHost = document.getElementById('article-shadow-host');
+        // const shadowHost = document.getElementById('article-shadow-host');
         const assessmentContainer = document.getElementById('assessment-container');
         const pageInfo = document.getElementById('page-info');
         const currentInfoText = document.getElementById('current-info');
-        // Assessments filter
-        const assessmentFilter = document.getElementById('status-filter');
-        let filter = assessmentFilter.value;
-
 
         // Create Shadow Root once
-        const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
+        // const shadowRoot = shadowHost.attachShadow({ mode: 'open' });
 
         async function loadJson(path) {
             const response = await fetch(path);
@@ -278,18 +285,7 @@
             try {
                 // Production: Load real data
                 data = [await loadJson('./data/gpt-5.json'), await loadJson('./data/gpt-5-mini.json')];
-                // Sort data according to data[0].pmcid
-                const orderMap = new Map(data[0].map((item, index) => [item.pmcid, index]))
-                for (let i = 0; i < data.length; i++) {
-                    if(i==0) continue;
-                    else {
-                        data[i].sort((a, b) => {
-                            return orderMap.get(a.pmcid) - orderMap.get(b.pmcid);
-                        });
-                    }
-                }
-
-                samples = await loadJson('./data/sample.json');
+                // samples = await loadJson('./data/sample.json');
                 strobe = await loadJson('./data/strobe-mr.json');
                 
                 createModelSelector();
@@ -325,7 +321,7 @@
                 btn.textContent = model.toUpperCase();
                 btn.onclick = () => {
                     currentModelIndex = idx;
-                    // currentArticleIndex = 0;
+                    currentArticleIndex = 0;
                     currentPage = 1;
                     createModelSelector();
                     createSidebar();
@@ -366,35 +362,34 @@
             if (!currentRes || !currentRes[currentArticleIndex]) return;
 
             const article = currentRes[currentArticleIndex];
-            currentInfoText.textContent = `Model: ${models[currentModelIndex]} | Article: ${article.pmcid}`;
-
-            const sample = samples.find(s => s.pmcid === article.pmcid);
+            currentInfoText.innerHTML = `Model: ${models[currentModelIndex]} | Article: <a class="${article_link_class}" target="_blank" href=${pmc_host}${article.pmcid}>${article.pmcid}</a>`;
+            // const sample = samples.find(s => s.pmcid === article.pmcid);
             
-            // Render into the Shadow Root to isolate styles
-            if (sample) {
-                // We add a basic internal style reset inside the shadow root 
-                // so the article doesn't inherit "nothing" (like white text on white bg)
-                const baseReset = `
-                    <style>
-                        :host { 
-                            display: block; 
-                            font-family: serif; 
-                            line-height: 1.6; 
-                            color: #333;
-                            background: white;
-                        }
-                        img { max-width: 100%; height: auto; }
-                        table { border-collapse: collapse; width: 100%; margin: 1em 0; }
-                        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-                    </style>
-                `;
-                shadowRoot.innerHTML = baseReset + parseArticleHtml(sample.html); 
-            } else {
-                shadowRoot.innerHTML = `
-                    <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #94a3b8; font-family: sans-serif;">
-                        <p>Content for ${article.pmcid} not found.</p>
-                    </div>`;
-            }
+            // // Render into the Shadow Root to isolate styles
+            // if (sample) {
+            //     // We add a basic internal style reset inside the shadow root 
+            //     // so the article doesn't inherit "nothing" (like white text on white bg)
+            //     const baseReset = `
+            //         <style>
+            //             :host { 
+            //                 display: block; 
+            //                 font-family: serif; 
+            //                 line-height: 1.6; 
+            //                 color: #333;
+            //                 background: white;
+            //             }
+            //             img { max-width: 100%; height: auto; }
+            //             table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+            //             th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+            //         </style>
+            //     `;
+            //     shadowRoot.innerHTML = baseReset + parseArticleHtml(sample.html); 
+            // } else {
+            //     shadowRoot.innerHTML = `
+            //         <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: #94a3b8; font-family: sans-serif;">
+            //             <p>Content for ${article.pmcid} not found.</p>
+            //         </div>`;
+            // }
 
             renderAssessments();
         }
@@ -404,28 +399,14 @@
             assessmentContainer.innerHTML = '';
             
             if (!article || !article.assessments || article.assessments.length === 0) {
-                assessmentContainer.innerHTML = '<div class="p-8 text-center text-red-400 text-sm">No assessments available (Because GPT-5 determined that it\'s not an original research article).</div>';
+                assessmentContainer.innerHTML = '<div class="p-8 text-center text-red-400 text-sm">No assessments available.</div>';
                 return;
             }
 
-            // Check filter status
-            const getAssessFilter = (assessments) => {
-                if (filter == 'all') {
-                    return assessments;
-                }
-                if (filter == 'met') {
-                    return assessments.filter((item) => item.is_met)
-                }
-                if (filter == 'not-met') {
-                    return assessments.filter((item) => !item.is_met)
-                }
-            }
-            const assessments = getAssessFilter(article.assessments)
-
-            const totalPages = Math.ceil(assessments.length / itemsPerPage);
+            const totalPages = Math.ceil(article.assessments.length / itemsPerPage);
             const start = (currentPage - 1) * itemsPerPage;
             const end = start + itemsPerPage;
-            const pageItems = assessments.slice(start, end);
+            const pageItems = article.assessments.slice(start, end);
 
             pageItems.forEach((assessment, i) => {
                 const globalIdx = start + i;
@@ -470,12 +451,6 @@
                 renderAssessments();
             }
         };
-
-        assessmentFilter.onchange = (e) => {
-            filter = e.target.value
-            currentPage = 1
-            renderAssessments()
-        }
 
         init();
     </script>
